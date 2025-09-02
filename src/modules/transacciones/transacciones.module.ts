@@ -13,4 +13,4 @@ import { InfrastructureModule } from './infrastructure/infrastructure.module';
         InfrastructureModule],
 })
 
-export class TransaccionesModule {}
+export class TransaccionesModule { }
