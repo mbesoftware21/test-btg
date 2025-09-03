@@ -1,6 +1,6 @@
 // src/modules/clientes/application/dto/cliente.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsEmail, IsArray, IsOptional, MinLength } from 'class-validator';
+import { IsString, IsEmail, IsArray, IsOptional, MinLength, IsNumber, Min } from 'class-validator';
 
 export class ClienteDto {
   @ApiProperty({ example: 'Juan Pérez' })
@@ -15,6 +15,12 @@ export class ClienteDto {
   @IsString()
   telefono: string;
 
+  @ApiProperty({ example: 500000, required: false })
+  @IsNumber()
+  @IsOptional()
+  @Min(0)
+  saldo?: number; // 👈 agregado para manejar saldo
+
   @ApiProperty({ example: ['email'], required: false })
   @IsArray()
   @IsOptional()
@@ -24,5 +30,10 @@ export class ClienteDto {
   @IsString()
   @IsOptional()
   @MinLength(6)
-  password?: string; // <-- agregado para AuthModule
+  password?: string; // <-- usado para AuthModule
+
+  @ApiProperty({ example: ['cliente'], required: false })
+  @IsArray()
+  @IsOptional()
+  roles?: string[]; // <-- nuevo campo
 }

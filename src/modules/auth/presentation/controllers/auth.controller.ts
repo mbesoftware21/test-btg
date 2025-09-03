@@ -22,6 +22,7 @@ export class AuthController {
       saldo: 500_000,
       preferencias: clienteDto.preferencias || [],
       password: clienteDto.password,
+      roles: clienteDto.roles as string[],
     });
 
     return this.authUseCases.registrar(cliente);

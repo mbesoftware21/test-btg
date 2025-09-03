@@ -1,4 +1,3 @@
-// src/modules/fondos/presentation/fondos.controller.ts
 import {
   Controller,
   Get,
@@ -8,24 +7,30 @@ import {
   Param,
   Body,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { IFondoUseCases } from '../../application/use-cases/fondos.use-case.impl';
 import { Fondo } from '../../domain/entities/fondo.entity';
 import { FondoDto } from '../../presentation/dtos/fondo.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
+import { Roles } from 'src/modules/auth/decorators/roles.decorator';
 
 @ApiTags('Fondos')
 @Controller('fondos')
+@UseGuards(AuthGuard('jwt'), RolesGuard) // Se aplican a todos los endpoints
 export class FondosController {
   constructor(private readonly fondosUseCases: IFondoUseCases) {}
 
+  // --- SOLO ADMIN ---
   @Post()
+  @Roles('admin')
   @ApiOperation({ summary: 'Crear un nuevo fondo' })
-  @ApiResponse({ status: 201, description: 'Fondo creado correctamente' })
   async crearFondo(@Body() fondoDto: FondoDto): Promise<Fondo> {
     const fondo = new Fondo(
-      '', // _id opcional, Mongo lo generará
-      '', // id opcional
+      undefined,
+      undefined,
       fondoDto.nombre,
       fondoDto.montoMinimo,
       fondoDto.categoria,
@@ -33,33 +38,15 @@ export class FondosController {
     return this.fondosUseCases.crearFondo(fondo);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Obtener fondo por ID' })
-  @ApiResponse({ status: 200, description: 'Fondo encontrado' })
-  @ApiResponse({ status: 404, description: 'Fondo no encontrado' })
-  async obtenerFondo(@Param('id') id: string): Promise<Fondo> {
-    const fondo = await this.fondosUseCases.obtenerFondoPorId(id);
-    if (!fondo) throw new NotFoundException(`Fondo con id ${id} no encontrado`);
-    return fondo;
-  }
-
-  @Get()
-  @ApiOperation({ summary: 'Listar todos los fondos' })
-  @ApiResponse({ status: 200, description: 'Lista de fondos' })
-  async listarFondos(): Promise<Fondo[]> {
-    return this.fondosUseCases.listarFondos();
-  }
-
   @Put(':id')
+  @Roles('admin')
   @ApiOperation({ summary: 'Actualizar un fondo existente' })
-  @ApiResponse({ status: 200, description: 'Fondo actualizado correctamente' })
-  @ApiResponse({ status: 404, description: 'Fondo no encontrado' })
   async actualizarFondo(
     @Param('id') id: string,
     @Body() fondoDto: FondoDto,
   ): Promise<Fondo> {
     const fondo = new Fondo(
-      '', // _id opcional
+      id,
       id,
       fondoDto.nombre,
       fondoDto.montoMinimo,
@@ -69,11 +56,27 @@ export class FondosController {
   }
 
   @Delete(':id')
+  @Roles('admin')
   @ApiOperation({ summary: 'Eliminar un fondo por ID' })
-  @ApiResponse({ status: 200, description: 'Fondo eliminado correctamente' })
-  @ApiResponse({ status: 404, description: 'Fondo no encontrado' })
   async eliminarFondo(@Param('id') id: string): Promise<{ mensaje: string }> {
     await this.fondosUseCases.eliminarFondo(id);
     return { mensaje: `Fondo con id ${id} eliminado correctamente` };
+  }
+
+  @Get()
+  @Roles('admin', 'cliente') // Solo admin puede listar todo
+  @ApiOperation({ summary: 'Listar todos los fondos' })
+  async listarFondos(): Promise<Fondo[]> {
+    return this.fondosUseCases.listarFondos();
+  }
+
+  // --- SOLO CLIENTE ---
+  @Get(':id')
+  @Roles('cliente', 'admin') // clientes pueden consultar solo por id
+  @ApiOperation({ summary: 'Obtener fondo por ID' })
+  async obtenerFondo(@Param('id') id: string): Promise<Fondo> {
+    const fondo = await this.fondosUseCases.obtenerFondoPorId(id);
+    if (!fondo) throw new NotFoundException(`Fondo con id ${id} no encontrado`);
+    return fondo;
   }
 }

@@ -42,7 +42,7 @@ export class AuthUseCasesImpl {
    */
   async login(email: string, password: string): Promise<LoginResponseDto> {
     // Obtener cliente por email
-    const cliente:any = await this.clienteUseCases.obtenerClientePorEmail(email);
+    const cliente = await this.clienteUseCases.obtenerClientePorEmail(email);
     if (!cliente) throw new UnauthorizedException('Credenciales inválidas');
 
     // Verificar password

@@ -1,3 +1,5 @@
+// src/modules/clientes/infrastructure/schemas/cliente.schema.ts
+
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -17,12 +19,14 @@ export class Cliente {
   @Prop({ required: true, default: 500_000 })
   saldo: number; // Saldo inicial
 
-  @Prop({ type: [{ type: String }] })
+  @Prop({ type: [String], default: [] })
   preferencias: string[]; // email, sms
 
-  
-  @Prop({ type: [{ type: String }] })
-  password: string; // email, sms
+  @Prop({ required: true })
+  password: string; // 👈 corregido (string, no array)
+
+  @Prop({ type: [String], default: ['cliente'] })
+  roles: string[]; // 👈 nuevo campo
 }
 
 export const ClienteSchema = SchemaFactory.createForClass(Cliente);

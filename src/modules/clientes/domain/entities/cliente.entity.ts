@@ -1,3 +1,5 @@
+// src/modules/clientes/domain/entities/cliente.entity.ts
+
 export interface ClienteProps {
   id?: string;
   nombre: string;
@@ -5,7 +7,8 @@ export interface ClienteProps {
   telefono: string;
   saldo?: number;
   preferencias?: string[];
-  password
+  password: any;
+  roles: string[]; 
 }
 
 export class ClienteEntity {
@@ -16,6 +19,7 @@ export class ClienteEntity {
   public saldo: number;
   public preferencias: string[];
   public password: string;
+  public roles: string[];
 
   constructor(props: ClienteProps) {
     this.id = props.id;
@@ -25,5 +29,6 @@ export class ClienteEntity {
     this.saldo = props.saldo ?? 500_000; // default
     this.preferencias = props.preferencias ?? [];
     this.password = props.password;
+    this.roles = props.roles; // 👈 default cliente
   }
 }
