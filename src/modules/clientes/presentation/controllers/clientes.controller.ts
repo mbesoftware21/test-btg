@@ -28,6 +28,7 @@ export class ClientesController {
       email: clienteDto.email,
       telefono: clienteDto.telefono,
       preferencias: clienteDto.preferencias || [],
+      password: clienteDto.password
     });
     return this.clienteUseCases.crearCliente(cliente);
   }
@@ -63,6 +64,7 @@ export class ClientesController {
       email: clienteDto.email,
       telefono: clienteDto.telefono,
       preferencias: clienteDto.preferencias || [],
+      password: clienteDto.password
     });
     return this.clienteUseCases.actualizarCliente(cliente);
   }

@@ -5,6 +5,7 @@ export interface ClienteProps {
   telefono: string;
   saldo?: number;
   preferencias?: string[];
+  password
 }
 
 export class ClienteEntity {
@@ -14,6 +15,7 @@ export class ClienteEntity {
   public telefono: string;
   public saldo: number;
   public preferencias: string[];
+  public password: string;
 
   constructor(props: ClienteProps) {
     this.id = props.id;
@@ -22,5 +24,6 @@ export class ClienteEntity {
     this.telefono = props.telefono;
     this.saldo = props.saldo ?? 500_000; // default
     this.preferencias = props.preferencias ?? [];
+    this.password = props.password;
   }
 }

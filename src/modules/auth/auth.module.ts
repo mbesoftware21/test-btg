@@ -1,15 +1,22 @@
-// clientes.module.ts
+// src/modules/auth/auth.module.ts
 import { Module } from '@nestjs/common';
-import { PresentationModule } from './presentation/presentation.module';
-import { DomainModule } from './domain/domain.module';
-import { ApplicationModule } from './application/application.module';
-import { InfrastructureModule } from './infrastructure/infrastructure.module';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthUseCasesImpl } from './application/use-cases/auth.use-case.impl';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { RolesGuard } from './guards/roles.guard';
+import { AuthController } from './presentation/controllers/auth.controller';
+import { ApplicationModule as ClientesAppModule } from '../clientes/application/application.module';
 
 @Module({
-    imports: [
-        PresentationModule,
-        DomainModule,
-        ApplicationModule,
-        InfrastructureModule],
+  imports: [
+    ClientesAppModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET || 'secretKey',
+      signOptions: { expiresIn: '1h' },
+    }),
+  ],
+  controllers: [AuthController],
+  providers: [AuthUseCasesImpl, JwtStrategy, RolesGuard],
+  exports: [AuthUseCasesImpl],
 })
 export class AuthModule {}

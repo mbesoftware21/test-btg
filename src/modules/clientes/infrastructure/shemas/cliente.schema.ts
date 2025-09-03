@@ -19,6 +19,10 @@ export class Cliente {
 
   @Prop({ type: [{ type: String }] })
   preferencias: string[]; // email, sms
+
+  
+  @Prop({ type: [{ type: String }] })
+  password: string; // email, sms
 }
 
 export const ClienteSchema = SchemaFactory.createForClass(Cliente);
