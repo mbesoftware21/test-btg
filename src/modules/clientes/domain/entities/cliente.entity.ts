@@ -1,11 +1,26 @@
+export interface ClienteProps {
+  id?: string;
+  nombre: string;
+  email: string;
+  telefono: string;
+  saldo?: number;
+  preferencias?: string[];
+}
 
 export class ClienteEntity {
-  constructor(
-    public readonly id: string,       // ObjectId como string
-    public nombre: string,
-    public email: string,
-    public telefono: string,
-    public saldo: number = 500_000,   // Default igual que en el schema
-    public preferencias: string[] = [], // Array de preferencias: email, sms
-  ) {}
+  public readonly id?: string;
+  public nombre: string;
+  public email: string;
+  public telefono: string;
+  public saldo: number;
+  public preferencias: string[];
+
+  constructor(props: ClienteProps) {
+    this.id = props.id;
+    this.nombre = props.nombre;
+    this.email = props.email;
+    this.telefono = props.telefono;
+    this.saldo = props.saldo ?? 500_000; // default
+    this.preferencias = props.preferencias ?? [];
+  }
 }

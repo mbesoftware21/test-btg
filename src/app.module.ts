@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientesModule } from './modules/clientes/clientes.module';
 import { FondosModule } from './modules/fondos/fondos.module';
@@ -17,7 +16,7 @@ import { ConfigModule } from '@nestjs/config';
     TransaccionesModule,
     AuthModule,
     DatabaseModule],
-  controllers: [AppController],
+  controllers: [],
   providers: [AppService],
 })
 export class AppModule { }
