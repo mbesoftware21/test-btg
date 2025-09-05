@@ -16,8 +16,8 @@ import { IClienteUseCases } from '../../application/use-cases/clientes.use-case'
 import { ClienteEntity } from '../../domain/entities/cliente.entity';
 import { ClienteDto } from '../dtos/cliente.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
-import { Roles } from 'src/modules/auth/decorators/roles.decorator';
+import { RolesGuard } from '../../../auth/guards/roles.guard';
+import { Roles } from '../../../auth/decorators/roles.decorator';
 
 @ApiTags('Clientes')
 @Controller('clientes')

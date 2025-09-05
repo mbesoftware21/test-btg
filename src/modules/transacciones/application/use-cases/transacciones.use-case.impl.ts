@@ -3,8 +3,8 @@ import { Injectable, BadRequestException, NotFoundException } from '@nestjs/comm
 import { ITransaccionUseCases } from './transacciones.use-case';
 import { ITransaccionRepository } from '../../infrastructure/repositories/transaccion.repository';
 import { TransaccionEntity } from '../../domain/entities/transaccion.entity';
-import { IClienteRepository } from 'src/modules/clientes/infrastructure/repositories/cliente.repository';
-import { FondoRepository } from 'src/modules/fondos/infrastructure/repositories/fondo.repository';
+import { IClienteRepository } from '../../../clientes/infrastructure/repositories/cliente.repository';
+import { FondoRepository } from '../../../fondos/infrastructure/repositories/fondo.repository';
 import { Fondo } from 'src/modules/fondos/domain/entities/fondo.entity';
 
 @Injectable()

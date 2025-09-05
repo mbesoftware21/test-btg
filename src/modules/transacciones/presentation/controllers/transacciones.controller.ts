@@ -15,8 +15,8 @@ import { ITransaccionUseCases } from '../../application/use-cases/transacciones.
 import { TransaccionDto } from '../dto/transaccion.dto';
 import { TransaccionEntity } from '../../domain/entities/transaccion.entity';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
-import { Roles } from 'src/modules/auth/decorators/roles.decorator';
+import { RolesGuard } from '../../../auth/guards/roles.guard';
+import { Roles } from '../../../auth/decorators/roles.decorator';
 
 @ApiTags('Transacciones')
 @Controller('transacciones')

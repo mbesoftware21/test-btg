@@ -8,10 +8,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGO_URI'),
+        uri: configService.get<string>('MONGO_URI') || 'mongodb://localhost:27017/btg-fondos',
       }),
     }),
   ],
   exports: [MongooseModule],
 })
-export class DatabaseModule {}
+export class DatabaseModule { }
